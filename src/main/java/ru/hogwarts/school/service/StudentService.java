@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Student;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,7 +30,8 @@ public class StudentService {
     }
     public Student addStudent(String inName, int inAge) {
         Student inStudent = new Student(scoint++, inName, inAge);
-        return students.putIfAbsent(inStudent.getId(), inStudent);
+        Student resStud = students.putIfAbsent(inStudent.getId(), inStudent);
+        return (resStud == null) ? inStudent : resStud;
     }
     public Student updateStudent(Student student) {
         return students.putIfAbsent(student.getId(),student);
@@ -45,6 +47,17 @@ public class StudentService {
         Student retStud = students.remove(remID);
         if (retStud!=null) scoint--;
         return retStud;
+    }
+
+
+    public ArrayList<Student> getStudentAll() {
+        return new ArrayList<>(students.values());
+    }
+
+    public Object[] fineStudentByAge(int age) {
+        return students.values().stream()
+                .filter(student -> (student.getAge() == age))
+                .toArray();
     }
 
 }

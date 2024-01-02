@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,10 +29,12 @@ public class FacultyService {
     }
     public Faculty addFaculty(String inName, String inColor) {
         Faculty inFaculty = new Faculty(fcoint++, inName, inColor);
-        return facultyList.put(inFaculty.getId(), inFaculty);
+        Faculty resFac = facultyList.putIfAbsent(inFaculty.getId(), inFaculty);
+        return (resFac == null) ? inFaculty : resFac;
     }
     public Faculty updateFaculty(Faculty faculty) {
-        return facultyList.putIfAbsent(faculty.getId(),faculty);
+        Faculty resFac = facultyList.putIfAbsent(faculty.getId(), faculty);
+        return (resFac == null) ? faculty : resFac;
     }
     public Faculty updateFaculty(Long setID, String inName, String inColor) {
         Faculty faculty = facultyList.get(setID);
@@ -44,5 +47,15 @@ public class FacultyService {
         Faculty retFac = facultyList.remove(remID);
         if (retFac!=null) fcoint--;
         return retFac;
+    }
+
+    public ArrayList<Faculty> getFacultyAll() {
+        return new ArrayList<>(facultyList.values());
+    }
+
+    public Object[] fineFacultyByColor(String color) {
+        return facultyList.values().stream()
+                .filter(faculty -> faculty.getColor().equals(color))
+                .toArray();
     }
 }
