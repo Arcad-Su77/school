@@ -45,7 +45,15 @@ public class StudentService {
     }
     public Student remove(Long remID) {
         Student retStud = students.remove(remID);
-        if (retStud!=null) scoint--;
+        if (retStud != null) {
+            while (remID.equals(scoint)){
+                Student nexStud = students.get(remID + 1);
+                nexStud.setId(remID++);
+                updateStudent(nexStud);
+            }
+            students.remove(scoint);
+            scoint--;
+        }
         return retStud;
     }
 

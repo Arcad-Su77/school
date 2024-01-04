@@ -45,7 +45,15 @@ public class FacultyService {
     }
     public Faculty remove(Long remID) {
         Faculty retFac = facultyList.remove(remID);
-        if (retFac!=null) fcoint--;
+        if (retFac != null) {
+            while (remID.equals(fcoint)){
+                Faculty nexFac = facultyList.get(remID + 1);
+                nexFac.setId(remID++);
+                updateFaculty(nexFac);
+            }
+            facultyList.remove(fcoint);
+            fcoint--;
+        }
         return retFac;
     }
 
