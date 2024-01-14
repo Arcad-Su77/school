@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.service.FacultyService;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/faculty")
@@ -18,11 +18,15 @@ public class FacultyController {
         return facultyService.getFacultyById(Long.parseLong(id));
     }
     @GetMapping("/get")
-    public ArrayList<Faculty> getFaculty() {
+    public List<Faculty> getFaculty() {
         return facultyService.getFacultyAll();
     }
+    @GetMapping("/fine/{name}")
+    public List<Faculty> fineFacultyName(@PathVariable("name") String name) {
+        return facultyService.fineFacultyByName(name);
+    }
     @GetMapping("/fine/{color}")
-    public Object[] fineFaculty(@PathVariable("color") String color) {
+    public List<Faculty> fineFacultyColor(@PathVariable("color") String color) {
         return facultyService.fineFacultyByColor(color);
     }
     @PostMapping("/new")

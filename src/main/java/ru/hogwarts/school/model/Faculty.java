@@ -1,20 +1,40 @@
 package ru.hogwarts.school.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import lombok.Data;
-import org.springframework.stereotype.Service;
+import org.springframework.data.annotation.Id;
+
+import java.util.Objects;
 
 @Data
-@Service
+@Entity
 public class Faculty {
+    @jakarta.persistence.Id
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private String color;
 
     public Faculty() {}
 
-    public Faculty(Long id, String name, String color) {
-        this.id = id;
+    public Faculty(String name, String color) {
         this.name = name;
         this.color = color;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Faculty faculty)) return false;
+        return Objects.equals(name, faculty.name) && Objects.equals(color, faculty.color);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, color);
+    }
+
 }

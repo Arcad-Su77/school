@@ -4,7 +4,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/student")
@@ -18,12 +19,16 @@ public class StudentController {
         return studentService.getStudent(Long.parseLong(id));
     }
     @GetMapping("/get")
-    public ArrayList<Student> getStudent() {
+    public List<Student> getStudent() {
         return studentService.getStudentAll();
     }
     @GetMapping("/fine/{age}")
-    public Object[] fineStudent(@PathVariable("age") String age) {
+    public Optional<Student> fineStudentAge(@PathVariable("age") String age) {
         return studentService.fineStudentByAge(Integer.parseInt(age));
+    }
+    @GetMapping("/fine/{name}")
+    public Optional<Student> fineStudentName(@PathVariable("name") String name) {
+        return studentService.fineStudentByName(name);
     }
     @PostMapping("/new")
     public Student createStudent(@RequestBody Student Student) {
