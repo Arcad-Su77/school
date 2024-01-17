@@ -4,8 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.hogwarts.school.model.Student;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,7 +30,8 @@ class StudentServiceTest {
 
     @Test
     void addStudent() {
-        Student student = studentService.addStudent("St_test4", 25);
+        Student student = studentService.addStudent("St_test4", 25)
+                .stream().findFirst().orElseThrow();
         Student actual = new Student("St_test4", 25);
         assertEquals(student, actual);
     }
@@ -61,8 +62,8 @@ class StudentServiceTest {
     @Test
     void fineStudentByAge() {
         studentService.addStudent("St_test5", 18);
-        Optional<Student> students = studentService.fineStudentByAge(18);
-        assertEquals(2, students.stream().count());
+        Collection<Student> students = studentService.fineStudentByAge(18);
+        assertEquals(2, students.size());
 
     }
 }

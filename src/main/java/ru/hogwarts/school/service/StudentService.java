@@ -4,8 +4,8 @@ import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.StudentRepository;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class StudentService {
@@ -22,9 +22,10 @@ public class StudentService {
     public List<Student> getStudentAll() {
         return studentRepository.findAll();
     }
-    public Student addStudent(String inName, int inAge) {
+    public Collection<Student> addStudent(String inName, int inAge) {
         Student inStudent = new Student(inName, inAge);
-        return studentRepository.save(inStudent);
+        studentRepository.saveAndFlush(inStudent);
+        return studentRepository.findByNameAndAge(inName, inAge);
     }
     public Student updateStudent(Student student) {
         return studentRepository.save(student);
@@ -42,12 +43,15 @@ public class StudentService {
         return retStud;
     }
 
-    public Optional<Student> fineStudentByAge(int age) {
+    public Collection<Student> fineStudentByAge(int age) {
         return studentRepository.findByAge(age);
     }
 
-    public Optional<Student> fineStudentByName(String name) {
+    public Collection<Student> fineStudentByName(String name) {
         return studentRepository.findByName(name);
     }
 
+    public Collection<Student> getStudentAge(int minAge, int maxAge) {
+        return studentRepository.findByAgeBetween(minAge,maxAge);
+    }
 }
