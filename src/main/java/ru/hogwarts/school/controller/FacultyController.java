@@ -2,9 +2,12 @@ package ru.hogwarts.school.controller;
 
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.FacultyService;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/faculty")
@@ -17,6 +20,12 @@ public class FacultyController {
     public Faculty getFaculty(@PathVariable("getID") String id) {
         return facultyService.getFacultyById(Long.parseLong(id));
     }
+
+    @GetMapping("/get/{getID}/student")
+    public Collection<Student> getStudentFaculty(@PathVariable("getID") String id) {
+        return facultyService.getStudentFacultyById(Long.parseLong(id));
+    }
+
     @GetMapping("/get")
     public List<Faculty> getFaculty() {
         return facultyService.getFacultyAll();
@@ -30,15 +39,14 @@ public class FacultyController {
         return facultyService.fineFacultyByColor(color);
     }
     @PostMapping("/new")
-    public Faculty createFaculty(@RequestBody Faculty faculty) {
-        return facultyService.addFaculty(faculty.getName(), faculty.getColor());
+    public Faculty createFaculty(@RequestBody Map<String,String> data) {
+        return facultyService.addFaculty(data.get("nameFaculty"), data.get("colorFaculty"));
     }
     @PutMapping("/update/{updateID}")
     public Faculty updateFaculty(@PathVariable("updateID") String id,
-                                 @RequestBody String name,
-                                 @RequestBody String color) {
+                                 @RequestBody Map<String,String> data) {
         return facultyService.updateFaculty(Long.valueOf(id),
-                name,color);
+                data.get("name"), data.get("color"));
     }
     @PostMapping("/remove")
     public Faculty removeFaculty(@RequestBody Faculty faculty) {

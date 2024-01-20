@@ -24,7 +24,7 @@ class StudentServiceTest {
     @Test
     void getStudent() {
         Student student = studentService.getStudent(1L);
-        Student actual = new Student("St_test1", 18);
+        Student actual = new Student(0L, "St_test1", 18, null);
         assertEquals(student,actual);
     }
 
@@ -32,14 +32,14 @@ class StudentServiceTest {
     void addStudent() {
         Student student = studentService.addStudent("St_test4", 25)
                 .stream().findFirst().orElseThrow();
-        Student actual = new Student("St_test4", 25);
+        Student actual = new Student(0L,"St_test4", 25,null);
         assertEquals(student, actual);
     }
 
     @Test
     void updateStudent() {
         Student updatedStudent = studentService.updateStudent(1L, "St_test1_updated", 20);
-        Student actual = new Student("St_test1_updated", 20);
+        Student actual = new Student(0L, "St_test1_updated", 20, null);
         assertEquals(updatedStudent, actual);
     }
 

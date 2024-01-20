@@ -2,30 +2,38 @@ package ru.hogwarts.school.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
+//import org.springframework.data.annotation.Id;
 
 import java.util.Objects;
 
 @Data
 @Entity
 public class Student {
-    @jakarta.persistence.Id
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
+
     private String name;
     private int age;
+
     @ManyToOne
     @JoinColumn(name = "faculty_id")
-    private Faculty faculty;
+    public Faculty faculty;
 
     public Student(){}
 
-    public Student(String name, int age) {
-        this.id = 0L;
+//    public Student(String name, int age) {
+//        this.id = 0L;
+//        this.name = name;
+//        this.age = age;
+////        this.faculty = null;
+//    }
+
+    public Student(Long id, String name, int age, Faculty faculty) {
+        this.id = id;
         this.name = name;
         this.age = age;
-        this.faculty = null;
+        this.faculty = faculty;
     }
 
     @Override

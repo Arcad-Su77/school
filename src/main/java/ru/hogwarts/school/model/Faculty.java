@@ -1,8 +1,12 @@
 package ru.hogwarts.school.model;
 
-import jakarta.persistence.*;
+//import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
+//import org.springframework.data.annotation.Id;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -10,21 +14,22 @@ import java.util.Objects;
 @Data
 @Entity
 public class Faculty {
-    @jakarta.persistence.Id
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue
+    private Long id = 0L;
+
     private String name;
     private String color;
+
     @OneToMany(mappedBy = "faculty")
-    private Collection<Student> students;
+    public Collection<Student> students;
 
     public Faculty() {}
 
-    public Faculty(String name, String color) {
-        this.name = name;
-        this.color = color;
-    }
+//    public Faculty(String name, String color) {
+//        this.name = name;
+//        this.color = color;
+//    }
 
     @Override
     public boolean equals(Object o) {
